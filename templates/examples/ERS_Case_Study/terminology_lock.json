@@ -1,0 +1,94 @@
+{
+  "metadata": {
+    "course": "Ethical Robot Systems (ERS)",
+    "semester": "SoSe 2026",
+    "total_locked_terms": 12,
+    "created_at": "2026-08-24T12:00:00Z"
+  },
+  "terms": [
+    {
+      "term": "Inherent Complexity",
+      "canonical_definition": "The structural difficulty and combinatorial state space explosion of formulating, calculating, and reaching moral consensus in multi-agent environments.",
+      "required_keywords": ["structural difficulty", "combinatorial state space", "moral consensus"],
+      "prohibited_colloquialisms": ["too slow", "hard to compute", "complex math"],
+      "module_id": "M01_Q1"
+    },
+    {
+      "term": "Functional Limitations",
+      "canonical_definition": "The reduction in robotic speed, peak mechanical performance, or computational throughput imposed by strict ethical safety constraints.",
+      "required_keywords": ["safety constraints", "reduced speed", "computational overhead"],
+      "prohibited_colloquialisms": ["slower compute", "slowed down", "limited power"],
+      "module_id": "M01_Q1"
+    },
+    {
+      "term": "Evolutionary Nature",
+      "canonical_definition": "The continuous historical and cultural evolution of societal norms and moral standards, requiring perpetual software updates.",
+      "required_keywords": ["societal norms evolution", "software updates", "changing standards"],
+      "prohibited_colloquialisms": ["rules change", "different times"],
+      "module_id": "M01_Q1"
+    },
+    {
+      "term": "Ethics of Risk",
+      "canonical_definition": "A systematic normative framework evaluating and managing risk distributions under uncertainty via the formula Risk = Likelihood (P) x Severity (S).",
+      "required_keywords": ["Risk = P x S", "risk distribution", "uncertainty", "safety threshold"],
+      "prohibited_colloquialisms": ["danger analysis", "chance of accident"],
+      "module_id": "M02_Q2"
+    },
+    {
+      "term": "Implicit Ethical Agent",
+      "canonical_definition": "Level 3 moral agent engineered with built-in software rules, safety boundaries, and constraints to avoid unethical outcomes without explicitly reasoning about moral philosophy.",
+      "required_keywords": ["Level 3", "built-in safety rules", "no explicit moral reasoning"],
+      "prohibited_colloquialisms": ["smart agent", "safe AI"],
+      "module_id": "M03_Q3"
+    },
+    {
+      "term": "Explicit Ethical Agent",
+      "canonical_definition": "Level 4 moral agent that algorithmically represents, calculates, and evaluates multiple ethical theories (Deontology, Utilitarianism) to resolve dilemmas.",
+      "required_keywords": ["Level 4", "explicit representation of moral theories", "dilemma resolution"],
+      "prohibited_colloquialisms": ["fully conscious agent", "human-level AI"],
+      "module_id": "M03_Q3"
+    },
+    {
+      "term": "Social Value Orientation (SVO)",
+      "canonical_definition": "A quantitative mathematical formulation of an agent's social preference angle theta balancing selfish payoff against collective welfare.",
+      "required_keywords": ["preference angle theta", "altruistic", "prosocial", "individual vs collective payoff"],
+      "prohibited_colloquialisms": ["kindness score", "driver personality"],
+      "module_id": "M04_Q4"
+    },
+    {
+      "term": "Embodied AI",
+      "canonical_definition": "Artificial intelligence integrated into physical embodiments learning through continuous closed-loop sensorimotor interactions from an egocentric perspective.",
+      "required_keywords": ["physical embodiment", "closed-loop sensorimotor", "egocentric perception"],
+      "prohibited_colloquialisms": ["robot with camera", "hardware AI"],
+      "module_id": "M05_Q5"
+    },
+    {
+      "term": "Polysemanticity",
+      "canonical_definition": "The property of individual neural network neurons activating for multiple unrelated concepts simultaneously, hindering direct interpretability.",
+      "required_keywords": ["individual neuron", "multiple unrelated concepts", "superposition"],
+      "prohibited_colloquialisms": ["confused neuron", "messy weights"],
+      "module_id": "M06_Q6"
+    },
+    {
+      "term": "Demographic Parity",
+      "canonical_definition": "A fairness metric requiring the positive outcome selection rate to be identical across protected and non-protected demographic groups: P(Y_hat=1|A=0) = P(Y_hat=1|A=1).",
+      "required_keywords": ["selection rate equality", "independent of ground truth", "group fairness"],
+      "prohibited_colloquialisms": ["equal hiring", "fair selection"],
+      "module_id": "M08_Q8"
+    },
+    {
+      "term": "Equal Opportunity",
+      "canonical_definition": "A fairness metric requiring the true positive rate (TPR) to be equal across demographic groups given a positive ground-truth label: P(Y_hat=1|A=0, Y=1) = P(Y_hat=1|A=1, Y=1).",
+      "required_keywords": ["true positive rate (TPR)", "qualified candidates", "conditional parity"],
+      "prohibited_colloquialisms": ["fair odds", "equal chances"],
+      "module_id": "M08_Q8"
+    },
+    {
+      "term": "Authority Recognition",
+      "canonical_definition": "The institutional and technical prerequisite that an AI agent or robot must identify and submit to legitimate human jurisdictional command and accountability.",
+      "required_keywords": ["institutional prerequisite", "legitimate human jurisdiction", "subordination"],
+      "prohibited_colloquialisms": ["following rules", "obeying police"],
+      "module_id": "M08_Q8"
+    }
+  ]
+}

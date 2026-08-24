@@ -1,0 +1,100 @@
+{
+  "metadata": {
+    "course": "Example University Course",
+    "credits": "5 ECTS",
+    "exam_date": "2026-09-01",
+    "exam_duration_minutes": 90,
+    "total_points": 120,
+    "number_of_main_questions": 10,
+    "points_per_question": 12,
+    "created_at": "2026-08-24T20:00:00Z",
+    "last_updated": "2026-08-24T20:00:00Z",
+    "total_knowledge_units": 4,
+    "overall_mastery_pct": 0.0
+  },
+  "cognitive_levels": {
+    "L1_Remember": "Recall facts, list items, state definitions without deep commentary.",
+    "L2_Understand": "Explain concepts, translate meaning, compare mechanisms, contrast trade-offs.",
+    "L3_Apply": "Use rules, methods, or models to solve concrete problems, execute calculations.",
+    "L4_Evaluate": "Make judgments, assess bias/fairness, criticize systems based on criteria.",
+    "L5_Develop": "Synthesize solutions, combine top-down/bottom-up architectures."
+  },
+  "modules": [
+    {
+      "module_id": "M01",
+      "exam_question": "Question 1 (12 Points)",
+      "title": "Foundations & Core Principles",
+      "source_lectures": ["Lecture 1"],
+      "status": "Untested",
+      "module_mastery_pct": 0.0,
+      "units": [
+        {
+          "id": "M01_KU01",
+          "title": "Core System Definition & Boundary Conditions",
+          "target_depth": "L1_Remember",
+          "bloom_level": 1,
+          "exam_priority": "High",
+          "mastery_score": 0,
+          "status": "Untested",
+          "last_reviewed": null,
+          "review_urgency": 1.0,
+          "key_points": ["Formal definitions", "Boundary constraints"],
+          "common_misconceptions": ["Confusing open-loop and closed-loop operation"],
+          "weaknesses_log": []
+        },
+        {
+          "id": "M01_KU02",
+          "title": "Architectural Pipeline & Autonomy Loop",
+          "target_depth": "L2_Understand",
+          "bloom_level": 2,
+          "exam_priority": "Critical",
+          "mastery_score": 0,
+          "status": "Untested",
+          "last_reviewed": null,
+          "review_urgency": 1.0,
+          "key_points": ["Sense-Plan-Act stages", "Latency bounds"],
+          "common_misconceptions": [],
+          "weaknesses_log": []
+        }
+      ]
+    },
+    {
+      "module_id": "M02",
+      "exam_question": "Question 2 (12 Points)",
+      "title": "Algorithmic Methods & Optimization",
+      "source_lectures": ["Lecture 2"],
+      "status": "Untested",
+      "module_mastery_pct": 0.0,
+      "units": [
+        {
+          "id": "M02_KU01",
+          "title": "Optimization Formulations & Objective Functions",
+          "target_depth": "L3_Apply",
+          "bloom_level": 3,
+          "exam_priority": "Critical",
+          "mastery_score": 0,
+          "status": "Untested",
+          "last_reviewed": null,
+          "review_urgency": 1.0,
+          "key_points": ["Cost function formulation", "Constraint matrix"],
+          "common_misconceptions": [],
+          "weaknesses_log": []
+        },
+        {
+          "id": "M02_KU02",
+          "title": "Complexity Analysis & Scalability Trade-offs",
+          "target_depth": "L2_Understand",
+          "bloom_level": 2,
+          "exam_priority": "High",
+          "mastery_score": 0,
+          "status": "Untested",
+          "last_reviewed": null,
+          "review_urgency": 1.0,
+          "key_points": ["NP-hard state space explosion", "Approximation bounds"],
+          "common_misconceptions": [],
+          "weaknesses_log": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+---
+description: Generate and proctor a timed, full-scope mock exam paper with authentic rubric scoring and diagnostic weakness post-mortem.
+globs: ["Knowledge_Ledger/**/*"]
+alwaysApply: false
+---
+
+# Mock Exam Rule
+
+When the user requests a simulated mock exam or full test:
+1. Follow the runbook in `skills/mock-exam/SKILL.md`.
+2. Assemble a balanced exam paper covering 100% of the syllabus from `Knowledge_Ledger/knowledge_ledger.json`.
+3. If no past exams exist, synthesize authentic problems from in-slide exercises and learning objectives.
+4. Proctor the exam in timed blocks or generate a full markdown exam paper.
+5. Grade point-by-point against official professorial criteria and locked terms.
+6. Generate a Diagnostic Post-Mortem Report and update the review urgency queue in the ledger.

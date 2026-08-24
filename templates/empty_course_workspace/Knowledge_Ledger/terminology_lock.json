@@ -1,0 +1,23 @@
+{
+  "metadata": {
+    "course": "Example University Course",
+    "created_at": "2026-08-24T20:00:00Z",
+    "total_locked_terms": 2
+  },
+  "terms": [
+    {
+      "term": "Sense-Plan-Act Loop",
+      "canonical_definition": "The cyclical closed-loop architecture where sensor inputs are mapped to world state predictions, planning goals, and actuator control signals.",
+      "required_keywords": ["closed-loop", "perception", "planning", "actuation"],
+      "prohibited_colloquialisms": ["robot loop", "control cycle"],
+      "module_id": "M01"
+    },
+    {
+      "term": "Inherent Complexity",
+      "canonical_definition": "The formal computational hardness (NP-hard) of finding globally optimal decisions over combinatorial state spaces.",
+      "required_keywords": ["computational hardness", "NP-hard", "combinatorial state space"],
+      "prohibited_colloquialisms": ["takes long", "hard to compute", "too slow"],
+      "module_id": "M02"
+    }
+  ]
+}

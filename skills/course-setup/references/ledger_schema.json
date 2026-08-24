@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "KnowledgeLedger",
+  "type": "object",
+  "required": ["metadata", "cognitive_levels", "modules"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["course", "total_points", "total_knowledge_units", "overall_mastery_pct"],
+      "properties": {
+        "course": { "type": "string" },
+        "credits": { "type": "string" },
+        "exam_date": { "type": "string" },
+        "exam_duration_minutes": { "type": "integer" },
+        "total_points": { "type": "integer" },
+        "number_of_main_questions": { "type": "integer" },
+        "points_per_question": { "type": "integer" },
+        "created_at": { "type": "string" },
+        "last_updated": { "type": "string" },
+        "total_knowledge_units": { "type": "integer" },
+        "overall_mastery_pct": { "type": "number" }
+      }
+    },
+    "cognitive_levels": {
+      "type": "object",
+      "properties": {
+        "L1_Remember": { "type": "string" },
+        "L2_Understand": { "type": "string" },
+        "L3_Apply": { "type": "string" },
+        "L4_Evaluate": { "type": "string" },
+        "L5_Develop": { "type": "string" }
+      }
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["module_id", "title", "units", "module_mastery_pct"],
+        "properties": {
+          "module_id": { "type": "string" },
+          "exam_question": { "type": "string" },
+          "title": { "type": "string" },
+          "source_lectures": { "type": "array", "items": { "type": "string" } },
+          "status": { "type": "string", "enum": ["Untested", "In Progress", "Solid Understanding", "Exam Ready"] },
+          "module_mastery_pct": { "type": "number" },
+          "units": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "title", "target_depth", "exam_priority", "mastery_score", "status"],
+              "properties": {
+                "id": { "type": "string" },
+                "title": { "type": "string" },
+                "target_depth": { "type": "string", "enum": ["L1_Remember", "L2_Understand", "L3_Apply", "L4_Evaluate", "L5_Develop"] },
+                "bloom_level": { "type": "integer", "minimum": 1, "maximum": 5 },
+                "exam_priority": { "type": "string", "enum": ["Critical", "High", "Medium", "Low"] },
+                "mastery_score": { "type": "number", "minimum": 0, "maximum": 100 },
+                "status": { "type": "string", "enum": ["Untested", "Fragile", "Basic Recall", "Solid Understanding", "Exam Ready"] },
+                "last_reviewed": { "type": ["string", "null"] },
+                "review_urgency": { "type": "number" },
+                "key_points": { "type": "array", "items": { "type": "string" } },
+                "common_misconceptions": { "type": "array", "items": { "type": "string" } },
+                "weaknesses_log": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

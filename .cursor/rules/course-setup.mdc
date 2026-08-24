@@ -1,0 +1,15 @@
+---
+description: Set up a new university course workspace, audit slide decks, lock professorial terminology, and initialize the knowledge ledger.
+globs: ["Course_Materials/**/*", "Knowledge_Ledger/**/*"]
+alwaysApply: false
+---
+
+# Course Setup Rule
+
+When the user asks to initialize, set up, or audit a course:
+1. Follow the runbook in `skills/course-setup/SKILL.md`.
+2. Recursively scan `Course_Materials/` for slides, notes, past exams, and transcripts.
+3. Spawn parallel subagents across lecture batches to extract slide topics, definitions, and in-slide exercises.
+4. Extract professorial terms and save into `Knowledge_Ledger/terminology_lock.json`.
+5. Generate `Knowledge_Ledger/knowledge_ledger.json` and `Knowledge_Ledger/Mastery_Dashboard.md`.
+6. Output a Document Gap Report informing the user of any missing materials or exercises.

@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "TerminologyLock",
+  "type": "object",
+  "required": ["metadata", "terms"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["course", "created_at", "total_locked_terms"],
+      "properties": {
+        "course": { "type": "string" },
+        "created_at": { "type": "string" },
+        "total_locked_terms": { "type": "integer" }
+      }
+    },
+    "terms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["term", "canonical_definition", "required_keywords"],
+        "properties": {
+          "term": { "type": "string" },
+          "canonical_definition": { "type": "string" },
+          "required_keywords": { "type": "array", "items": { "type": "string" } },
+          "prohibited_colloquialisms": { "type": "array", "items": { "type": "string" } },
+          "module_id": { "type": "string" },
+          "source_slide": { "type": "string" }
+        }
+      }
+    }
+  }
+}

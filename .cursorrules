@@ -1,0 +1,5 @@
+# Universal AI Study Engine — Cursor Rules (Legacy)
+# Always follow instructions in AGENTS.md.
+# Key commands: course-setup, study-session, mock-exam.
+# Strictly enforce Knowledge_Ledger/terminology_lock.json.
+# Update Knowledge_Ledger/knowledge_ledger.json live after each question.

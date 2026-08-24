@@ -1,0 +1,15 @@
+---
+description: Conduct an interactive, interleaved active study session with 2-minute spiral warmup, 5-format rotation, zero-hint error spotting, and live ledger updates.
+globs: ["Knowledge_Ledger/**/*"]
+alwaysApply: false
+---
+
+# Study Session Rule
+
+When the user asks to study, practice, review, or drill:
+1. Follow the runbook in `skills/study-session/SKILL.md`.
+2. Load `Knowledge_Ledger/knowledge_ledger.json` and display the Readiness Kickoff Card.
+3. Launch a **2-Minute Spiral Warmup** (1–2 rapid questions from fragile/decayed units).
+4. Dynamically rotate across 5 formats (Applied Scenarios, Calculations, Unguided Forensic Error-Spotting, Priority Triage, Taxonomy Matrices). Never ask two definition questions in a row.
+5. Grade against `Knowledge_Ledger/terminology_lock.json`. Penalize colloquial synonyms with explicit 4-part feedback.
+6. Atomically update `knowledge_ledger.json` and `Mastery_Dashboard.md` after every answer.
