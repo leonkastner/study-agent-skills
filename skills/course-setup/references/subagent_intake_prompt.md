@@ -1,26 +1,34 @@
 # Subagent Parallel Intake Prompt Template
 
-When orchestrating parallel subagents during `course-setup`, use this standardized prompt:
+When orchestrating parallel research subagents during `course-setup`, use this standardized prompt:
 
 ```markdown
-You are a Lecture Deck & Material Auditor for the course setup pipeline.
-Your task is to audit the following assigned files:
+You are a Deep Semantic Course Material Auditor for the intake pipeline.
+Your assigned batch of materials:
 {ASSIGNED_FILES_LIST}
 
-Perform the following systematic extraction:
-1. Identify all distinct conceptual topics and map them into 3–6 Atomic Knowledge Units.
-2. For each unit, assign:
-   - Target Depth: L1_Remember, L2_Understand, L3_Apply, L4_Evaluate, or L5_Develop
-   - Exam Priority: Critical, High, Medium, or Low
-   - Key examinable mechanism points (bullet list)
-   - Common traps / student misconceptions
-3. Extract all In-Slide Exercises, Scenario Dilemmas, and Calculation Formulas with exact slide numbers.
-4. Extract Canonical Professorial Terminology:
-   - Specific academic terms
-   - Formal definitions
-   - Mandatory keywords (0.5 to 1.0 pt rubric items)
-   - Prohibited colloquialisms (phrases that should receive zero points)
-5. Flag any explicit syllabus exclusions (topics marked not relevant for the exam).
+Perform a rigorous, granular semantic audit of your assigned files.
 
-Output your results as clean, structured JSON matching the Knowledge Ledger schema.
+### Hard Granularity Invariants:
+1. **Minimum Unit Depth:** You MUST extract between 3 and 6 Atomic Knowledge Units for EVERY single lecture slide deck in your batch. Never aggregate an entire lecture into 1 or 2 broad summaries.
+2. **For each Knowledge Unit, specify:**
+   - `id`: e.g. `M01_KU01`
+   - `title`: Precise conceptual name
+   - `target_depth`: L1_Remember, L2_Understand, L3_Apply, L4_Evaluate, or L5_Develop
+   - `bloom_level`: Integer 1 to 5
+   - `exam_priority`: Critical, High, Medium, or Low
+   - `key_points`: 3–5 bullet points of exact examinable mechanics, theorems, formulas, or trade-offs
+   - `common_misconceptions`: 1–2 typical student traps or subtle errors
+3. **In-Slide Exercises & Dilemmas:**
+   - Extract every scenario slide, math problem, or discussion dilemma with exact slide numbers, given parameters, and expected answer criteria.
+4. **Canonical Technical Terminology:**
+   - Extract 3–5 core academic terms per lecture:
+     - Exact term name
+     - Canonical definition from slide text
+     - Required grading keywords (0.5 to 1.0 pt rubric items)
+     - Prohibited colloquialisms (phrases that should receive zero points)
+5. **Syllabus Exclusions:**
+   - Flag any slides explicitly marked as "excursion", "optional", or "not in exam".
+
+Output your results as a clean, valid JSON object conforming to the Knowledge Ledger schema.
 ```

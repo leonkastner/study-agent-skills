@@ -2,6 +2,7 @@
 """
 Knowledge Ledger & Terminology Lock Initializer
 Builds knowledge_ledger.json, terminology_lock.json, and Mastery_Dashboard.md.
+Includes automated granularity verification against aggregation bias.
 """
 
 import argparse
@@ -12,9 +13,22 @@ import sys
 from pathlib import Path
 
 
+def verify_granularity(ledger: dict, min_units_per_module: int = 3) -> tuple[bool, list]:
+    """Verifies that the ledger does not suffer from aggregation compression bias."""
+    warnings = []
+    modules = ledger.get("modules", [])
+    
+    for m in modules:
+        units = m.get("units", [])
+        if len(units) < min_units_per_module:
+            warnings.append(f"Module '{m.get('module_id')}' ({m.get('title')}) has only {len(units)} units. (Minimum recommended: {min_units_per_module})")
+            
+    is_valid = len(warnings) == 0
+    return is_valid, warnings
+
+
 def create_initial_ledger(course_name: str, modules_data: list, exam_date: str = None, total_points: int = 120, exam_duration: int = 90) -> dict:
     now_iso = datetime.datetime.now(datetime.timezone.utc).isoformat()
-    
     total_units = sum(len(m.get("units", [])) for m in modules_data)
 
     ledger = {
@@ -49,7 +63,6 @@ def render_dashboard(ledger: dict) -> str:
     total_units = meta["total_knowledge_units"]
     overall_pct = meta["overall_mastery_pct"]
 
-    # Count statuses
     counts = {"Exam Ready": 0, "Solid Understanding": 0, "Basic Recall": 0, "Fragile": 0, "Untested": 0}
     for m in ledger["modules"]:
         for u in m.get("units", []):
@@ -164,7 +177,7 @@ def main():
             "module_id": "M01",
             "exam_question": "Question 1",
             "title": "Course Foundations & Core Concepts",
-            "source_lectures": ["Lecture 1", "Lecture 2"],
+            "source_lectures": ["Lecture 1"],
             "status": "Untested",
             "module_mastery_pct": 0.0,
             "units": [
@@ -193,6 +206,20 @@ def main():
                     "last_reviewed": None,
                     "review_urgency": 1.0,
                     "key_points": ["Core model architecture", "Trade-offs"],
+                    "common_misconceptions": [],
+                    "weaknesses_log": []
+                },
+                {
+                    "id": "M01_KU03",
+                    "title": "Core Calculation Principles & Bounds",
+                    "target_depth": "L3_Apply",
+                    "bloom_level": 3,
+                    "exam_priority": "High",
+                    "mastery_score": 0,
+                    "status": "Untested",
+                    "last_reviewed": None,
+                    "review_urgency": 1.0,
+                    "key_points": ["Mathematical formulas", "Edge cases"],
                     "common_misconceptions": [],
                     "weaknesses_log": []
                 }

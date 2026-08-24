@@ -2,111 +2,88 @@
 name: course-setup
 description: >-
   Sets up and initializes a course workspace. Recursively audits all course materials (slides,
-  notes, transcripts, past exams), spawns parallel subagents across lecture batches, extracts
-  100% of slide topics and in-slide exercises, locks canonical professorial terminology, generates
-  a document gap report, initializes knowledge_ledger.json and Mastery_Dashboard.md, and auto-scaffolds
-  agent rules. Use whenever the user asks to set up, initialize, or re-index a course.
+  notes, transcripts, past exams), strictly enforces parallel subagents across lecture batches,
+  extracts 100% of slide topics and in-slide exercises with deep granularity (minimum 3-6 units per lecture),
+  locks canonical professorial terminology, generates a document gap report, initializes knowledge_ledger.json
+  and Mastery_Dashboard.md, and auto-scaffolds agent rules.
 ---
 
-# 🛠️ Skill: `course-setup` (Course Ingestion, Slide Audit & Scaffolding)
+# Skill: `course-setup` (Course Ingestion, Slide Audit & Scaffolding)
 
 Use this skill to onboard any new course or re-audit an existing course with updated materials.
 
 ---
 
-## 1. Multi-Subagent Ingestion Architecture
+## 1. Architectural Invariant: Mandatory Parallel Subagent Policy
 
-When a course contains multiple slide decks, transcripts, or past exams, **DO NOT parse everything in a single prompt turn**. Doing so causes severe context bloat and degrades indexing accuracy.
+> [!CAUTION]
+> **Zero Single-Pass Aggregation Rule (Anti-Compression Invariant):**
+> If a workspace contains **more than 3 lecture decks** or **more than 100 total slides**, the setup agent **MUST NOT** parse or synthesize the knowledge ledger in a single prompt turn.
+> 
+> **Why?** Single-pass ingestion causes severe **Aggregation Bias and Context Compression Loss**—subtle definitions, in-slide exercises, and edge-case mechanics get compressed into overly broad, shallow units (e.g. only 1–2 units per lecture instead of 4–6).
 
-### Orchestration Protocol:
-1. **Scan Workspace:** Identify all files in `Course_Materials/` or workspace subdirectories.
-2. **Spawn Parallel Research Subagents:**
-   - Group lecture slide decks into batches (e.g. 3–4 decks per subagent).
-   - Use the template in [subagent_intake_prompt.md](./references/subagent_intake_prompt.md).
-   - Subagent Role: `Lecture Deck Auditor (L01-L04)`, `Lecture Deck Auditor (L05-L08)`, `Past Exam Auditor`.
-3. **Collect & Synthesize:**
-   - Each subagent returns a clean JSON summary of atomic knowledge units, extracted keywords, in-slide exercises, and syllabus exclusion flags.
-   - The main agent merges these summaries into the central ledger.
+### The Two-Stage Ingestion Standard
+
+```mermaid
+flowchart TD
+    A[Course Materials Ingested] --> B[Stage 1: Fast Local Text Extraction via parse_slides.py]
+    B --> C[Stage 2: Spawn Parallel Subagents across Lecture Batches]
+    C --> D[Subagent 1: Decks L01-L03]
+    C --> E[Subagent 2: Decks L04-L06]
+    C --> F[Subagent 3: Decks L07-L10]
+    C --> G[Subagent 4: Decks L11-L13 + Exams]
+    D & E & F & G --> H[Stage 3: Merge JSON Outputs & Verify Granularity >= 3 Units/Deck]
+    H --> I[Compile knowledge_ledger.json & terminology_lock.json]
+```
+
+1. **Stage 1 (Fast Parsing):** Run `python3 scripts/parse_slides.py` to extract text and identify exercise slides quickly into local JSON / text buffers.
+2. **Stage 2 (Parallel Deep Semantic Audit):**
+   - Group lecture decks into batches of **2 to 3 decks per subagent**.
+   - Spawn parallel research subagents using the standardized template in [`subagent_intake_prompt.md`](./references/subagent_intake_prompt.md).
+   - Each subagent performs deep semantic extraction on its assigned batch.
+3. **Stage 3 (Synthesis & Verification):**
+   - Merge the subagent JSON outputs into `Knowledge_Ledger/knowledge_ledger.json`.
+   - Run the **Granularity Verification Rule**: Ensure every lecture produces **at least 3 to 6 atomic knowledge units**.
 
 ---
 
 ## 2. Step-by-Step Execution Runbook
 
-```mermaid
-flowchart TD
-    A[User: 'Set up my course for [Name]'] --> B[Step 1: Discover & Classify Materials]
-    B --> C[Step 2: Spawn Parallel Subagents for Deep Audit]
-    C --> D[Step 3: Run parse_slides.py / parse_materials.py]
-    D --> E[Step 4: Build knowledge_ledger.json & terminology_lock.json]
-    E --> F[Step 5: Run Gap Analysis & Generate Gap Report]
-    F --> G[Step 6: Render Mastery_Dashboard.md & Scaffold AGENTS.md]
-```
+### Step 1: Material Discovery & Classification
+Scan the workspace and identify all available documents (slides, notes, past exams, formula sheets, transcripts).
 
-### Step 1: Discover & Classify Available Materials
-Classify available files into the **Material Availability Matrix**:
-- **Slides:** PDF/PPTX slide decks in `01_Lecture_Slides/`.
-- **Notes:** Markdown, Word, or PDF notes in `02_Notes_and_Summaries/`.
-- **Exams:** Past exam papers and official solutions in `03_Past_Exams_and_Solutions/`.
-- **Transcripts/Admin:** Syllabus, exam briefing audio/video, or transcripts in `04_Syllabus_and_Admin/`.
+### Step 2: Spawn Parallel Research Subagents
+Dispatch subagents with explicit batch assignments:
+- `Subagent A (Foundations L01-L03)`
+- `Subagent B (Core Theory L04-L07)`
+- `Subagent C (Advanced Topics L08-L11)`
+- `Subagent D (Applications & Past Exams L12-L13)`
 
-### Step 2: Extract Atomic Knowledge Units & In-Slide Exercises
-For every lecture deck:
-- Extract all slide titles, conceptual subsections, and key definitions.
-- **Extract all in-slide exercises, calculation problems, and scenarios** (Crucial: in-slide exercises often reveal the professor's exact exam question archetypes!).
-- Identify explicit syllabus exclusions (e.g., topics marked *"not relevant for exam"* or *"excursion"*).
-- Run `python3 scripts/parse_slides.py --input Course_Materials/01_Lecture_Slides/` or let subagents process them.
+Each subagent must return:
+- **Atomic Knowledge Units (3–6 per lecture):** Title, Bloom depth (`L1_Remember` to `L5_Develop`), exam priority, key examinable mechanisms, common misconceptions.
+- **In-Slide Exercises & Formulas:** Exact slide numbers, problem parameters, and solution steps.
+- **Canonical Terminology:** Specific academic terms, formal definitions, required grading keywords (0.5–1.0 pt items), and prohibited colloquialisms.
 
-### Step 3: Lock Canonical Professorial Terminology
-To prevent AI paraphrasing drift across study sessions:
-- Identify exact technical terms, standard definitions, and formal distinctions directly from the slides.
-- Save them into `Knowledge_Ledger/terminology_lock.json` matching [terminology_schema.json](./references/terminology_schema.json).
-- Example:
-  ```json
-  {
-    "term": "Inherent Complexity",
-    "canonical_definition": "The structural difficulty of calculating optimal ethical decisions in multi-agent environments.",
-    "required_keywords": ["NP-hard", "combinatorial state space", "multi-agent interactions"],
-    "prohibited_colloquialisms": ["too slow", "hard to calculate", "takes long"]
-  }
-  ```
+### Step 3: Compile Knowledge Ledger & Terminology Lock
+1. Merge subagent outputs into `Knowledge_Ledger/knowledge_ledger.json` matching [`ledger_schema.json`](./references/ledger_schema.json).
+2. Save locked technical terms into `Knowledge_Ledger/terminology_lock.json` matching [`terminology_schema.json`](./references/terminology_schema.json).
+3. Set all initial mastery scores to `0%` (`Untested`).
 
-### Step 4: Perform Gap Analysis
-Compare what exists in the slides vs. what is available in student notes and practice exams:
-- Follow the heuristic in [gap_detection_guide.md](./references/gap_detection_guide.md).
-- Identify slide topics that have **zero practice exercises** or **zero student notes**.
-- Prepare the **Document Gap Report** to inform the student.
+### Step 4: Run Document Gap Analysis
+Compare slide topics against available practice exercises and past exams:
+- Follow [`gap_detection_guide.md`](./references/gap_detection_guide.md).
+- Flag lectures that have slides but zero practice exercises so `mock-exam` can synthesize authentic questions.
 
-### Step 5: Initialize Knowledge Ledger & Dashboard
-Run `python3 scripts/init_ledger.py` or write `Knowledge_Ledger/knowledge_ledger.json` conforming to [ledger_schema.json](./references/ledger_schema.json):
-- Set all initial mastery scores to `0%` (`Untested`).
-- Assign Bloom depth levels (`L1_Remember` to `L5_Develop`).
-- Assign exam priorities (`Critical`, `High`, `Medium`, `Low`).
-- Render `Knowledge_Ledger/Mastery_Dashboard.md` using [dashboard_template.md](./resources/dashboard_template.md).
-
-### Step 6: Scaffold Lean Agent Rules
-Write or update `AGENTS.md` and `GEMINI.md` in the project root with the specific course title, target exam date (if provided), total point weight, and pointers to `Knowledge_Ledger/`.
+### Step 5: Render Dashboard & Scaffold Rules
+1. Render `Knowledge_Ledger/Mastery_Dashboard.md`.
+2. Scaffold `AGENTS.md` and `GEMINI.md` in the project root with the course title, total points, and pointers to the knowledge ledger.
 
 ---
 
-## 3. Output to the Student (Intake Report)
+## 3. Granularity & Quality Checklist
 
-Always conclude the setup with a clear, inspiring kickoff report:
-
-```markdown
-# 🎓 Course Setup Complete: [Course Name]
-
-### 📊 Ingestion Summary
-- **Lecture Decks Audited:** X Decks (Y total slides parsed)
-- **Atomic Knowledge Units Created:** Z Units across N Modules
-- **Professorial Terms Locked:** K Canonical Terms
-- **Baseline Exam Readiness:** 0.0% [░░░░░░░░░░]
-
-### 🔍 Document Gap Report & Recommendations
-- ✅ **Strong Coverage:** Module 1, 2, 3 have full slides and past exam tasks.
-- ⚠️ **Identified Gaps:**
-  - *Lecture 5 (Topic X):* 38 slides found, but no practice exercises or student notes.
-  - *Recommendation:* Do you have exercise sheets for Lecture 5? If not, the engine will synthesize authentic Bloom L2/L3 exam questions for it.
-
-### 🚀 Ready to Begin!
-Whenever you want to start studying, simply say: **"Let's study"** or **"Start session"**.
-```
+Before completing `course-setup`, verify:
+- [ ] **Total Knowledge Units:** $\ge 3 \times \text{Total Lecture Count}$ (e.g. 10 lectures $\ge 30$ units; 13 lectures $\ge 39$ units).
+- [ ] **In-Slide Exercises:** All scenario/calculation slides captured with parameters.
+- [ ] **Terminology Lock:** $\ge 3$ canonical terms locked per lecture module.
+- [ ] **Exclusions:** Explicitly marked non-examinable topics tagged as excluded.
