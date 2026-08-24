@@ -4,64 +4,76 @@ A universal skill set that turns any AI coding assistant into an exam-calibrated
 
 ---
 
-## Instant Setup (1 Prompt)
+## 1. Quickstart (One Prompt Setup)
 
-Open your course folder in your AI desktop app and paste this prompt into the chat:
+Open your course directory (containing your slides, notes, or PDFs) in your AI desktop app and paste:
 
 ```text
-Install the study skill set from https://github.com/leonkastner/study-agent-skills into this workspace and set up my study tutor for [Course Name].
+Install the study skill set from https://github.com/leonkastner/study-agent-skills into this workspace and set up my study tutor.
 ```
 
-The agent will clone the skills, audit all slide decks, lock official professorial terminology, and initialize your personal progress ledger.
+This single command:
+1. Clones the skills into your workspace.
+2. Automatically scans and classifies all documents in your directory (no manual folder organization required).
+3. Audits all lecture slides and in-slide exercises.
+4. Locks official professorial terminology into `Knowledge_Ledger/terminology_lock.json`.
+5. Initializes your progress tracker in `Knowledge_Ledger/Mastery_Dashboard.md`.
 
 ---
 
-## Recommended Setup
+## 2. How to Use It
 
-### 1. Interface: Use a Desktop App (Avoid Raw Terminal)
-While command-line terminals work, studying in a raw terminal is visually inconvenient for reading tables, math formulas, and scorecards. We recommend using a desktop app with a clean graphical chat interface:
+Once initialized, use simple chat prompts or slash commands to run your study workflow:
+
+### Step 1: Active Daily Study
+Start an active, interleaved study session with 2-minute spiral warmups, applied scenario diagnosis, metric calculations, and unguided error-spotting:
+```text
+Let's study
+```
+*(Or use `/study-session`)*
+
+Your tutor asks one focused question at a time, evaluates against the locked terminology, and updates your mastery dashboard live after every answer.
+
+### Step 2: Timed Mock Exams
+Simulate a full exam covering 100% of the course syllabus under realistic timing and point weights:
+```text
+Run a full mock exam
+```
+*(Or use `/mock-exam`)*
+
+The tutor delivers the exam, grades each answer point-by-point against professorial rubrics, and outputs a diagnostic report with immediate remediation targets.
+
+### Step 3: Material Re-Auditing (Optional)
+If you add new lecture slides or notes later in the semester, re-index your workspace:
+```text
+Audit my course materials
+```
+*(Or use `/course-setup`)*
+
+---
+
+## 3. Recommended Environment
+
+### Interface: Desktop App (Avoid Raw Terminal)
+Studying in a raw terminal makes reading tables, math formulas, and scorecards inconvenient. We recommend using a desktop app with a clean graphical chat interface:
 - **Google Antigravity** (Desktop App / Agent Manager) — Recommended
 - **Claude Desktop**
 - **Cursor** / **Windsurf** / **ChatGPT Desktop**
 
-### 2. Model Selection: Fast Models Win
-For interactive study sessions, **response latency is critical**. Slow models break cognitive momentum during active retrieval.
-- Choose a **fast, low-latency model** (e.g., Gemini Flash, Claude Haiku, or GPT-4o-mini).
-- Fast models provide near-instant responses, follow grading rubrics accurately, and keep study sessions engaging.
+### Model: Fast Low-Latency Models
+Active tutoring requires fast turnarounds to keep study sessions engaging:
+- Recommended: **Gemini Flash**, **Claude Sonnet**, or **GPT-5.6 / Luna**.
+- Fast models offer near-instant responses while accurately enforcing strict grading rubrics.
 
 ---
 
-## How to Organize Your Course Folder
+## 4. Skills Reference
 
-```text
-My_Course_Name/
-└── Course_Materials/
-    ├── 01_Lecture_Slides/             # Drop your lecture PDFs here (L01.pdf, L02.pdf...)
-    ├── 02_Notes_and_Summaries/        # Notes, summaries, or reading materials
-    ├── 03_Past_Exams_and_Solutions/   # Past exam papers and solution keys (optional)
-    └── 04_Syllabus_and_Admin/         # Syllabus, exam guidelines, or transcripts
-```
-
----
-
-## Core Skills & Workflow
-
-The system consists of 3 focused skills:
-
-| Skill | Purpose | How to Trigger |
-| :--- | :--- | :--- |
-| **`course-setup`** | Audits 100% of lecture slides, locks professorial terminology into `terminology_lock.json`, detects missing material gaps, and initializes `knowledge_ledger.json`. | Run automatically during initial setup, or prompt: *"Audit my course materials"*. |
-| **`study-session`** | Conducts 100% in-chat active study drills. Runs 2-minute spiral warmups, rotates across 5 active formats (scenarios, calculations, error-spotting, triage, taxonomy), and updates mastery live. | Prompt: *"Let's study"* or *"Quiz me on Module 2"*. |
-| **`mock-exam`** | Assembles and proctors a balanced, full-scope mock exam paper covering the entire syllabus. Grades point-by-point and generates diagnostic weakness reports. | Prompt: *"Run a full mock exam"*. |
-
----
-
-## Why This Works
-
-1. **Zero Slide Blindspots:** Audits all lecture slides and in-slide exercises, preventing tutors from fixating only on old exams.
-2. **Canonical Terminology Lock:** Locks official academic terms from your slides into `Knowledge_Ledger/terminology_lock.json`, eliminating confusing paraphrasing and enforcing precise keyword grading.
-3. **Active Retrieval:** Replaces passive reading with interactive scenario diagnosis, metric calculations, and unguided forensic error-spotting.
-4. **Live Mastery Ledger:** Tracks atomic knowledge units and renders `Knowledge_Ledger/Mastery_Dashboard.md` after every drill.
+| Skill | Purpose | Chat Trigger | Slash Command |
+| :--- | :--- | :--- | :--- |
+| **`course-setup`** | Scans documents, extracts slide topics, locks technical terminology, and builds the knowledge ledger. | *"Audit my materials"* | `/course-setup` |
+| **`study-session`** | Conducts active interleaved drills (scenarios, calculations, unguided error-spotting, taxonomy) and syncs dashboard. | *"Let's study"* | `/study-session` |
+| **`mock-exam`** | Assembles balanced full-syllabus exam papers, proctors timed tests, and produces diagnostic post-mortems. | *"Run mock exam"* | `/mock-exam` |
 
 ---
 
